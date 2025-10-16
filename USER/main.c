@@ -24,8 +24,6 @@ void startTask(void *arg)
     xTaskCreate(atkpTxTask, "ATKP_TX", 150, NULL, 3, NULL);        /*将传感器数据进行打包,添加到待发送队列*/
     xTaskCreate(atkpRxAnlTask, "ATKP_RX_ANL", 300, NULL, 6, NULL); /*将接收到的数据包进行解析*/
 
-    //xTaskCreate(configParamTask, "CONFIG_TASK", 150, NULL, 1, NULL); /*创建参数配置任务*/
-
     xTaskCreate(pmTask, "PWRMGNT", 150, NULL, 2, NULL); /*创建电源管理任务*/
 
     xTaskCreate(sensorsTask, "SENSORS", 450, NULL, 4, NULL); /*创建传感器处理任务*/
