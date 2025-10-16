@@ -19,11 +19,8 @@ void systemInit(void)
 	ledseqInit();		/*led灯序列初始化*/
 	
 	radiolinkInit();/*无线通信初始化*/
-	//commInit();			/*通信初始化  STM32 & NRF51822 */
 	usb_Init();			/*虚拟串口初始化*/
 	atkpInit();			/*传输协议初始化*/
-	//consoleInit();		/*打印初始化*/
-	configParamInit();	/*初始化配置参数*/
 	pmInit();			/*电源管理初始化*/
 	stabilizerInit();	/*电机 传感器 PID初始化*/
 	//expModuleDriverInit();/*扩展模块驱动初始化*/
@@ -57,8 +54,6 @@ static bool systemTest(void)
 	
 	pass &= ledTest();
 	pass &= pmTest();
-	pass &= configParamTest();
-	//pass &= commTest();
 	pass &= stabilizerTest();	
 	pass &= watchdogTest();
 	

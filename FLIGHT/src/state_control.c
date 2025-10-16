@@ -38,7 +38,6 @@ bool stateControlTest(void)
 
 void stateControl(control_t *control, sensorData_t *sensors, state_t *state, setpoint_t *setpoint, const u32 tick)
 {
-	static u16 cnt = 0;
 	
 	if (RATE_DO_EXECUTE(POSITION_PID_RATE, tick))
 	{
@@ -111,14 +110,6 @@ void stateControl(control_t *control, sensorData_t *sensors, state_t *state, set
 		positionResetAllPID();	/*复位位置PID*/
 		attitudeDesired.yaw = state->attitude.yaw;		/*复位计算的期望yaw值*/
 		
-		if(cnt++ > 1500)
-		{
-			cnt = 0;
-			configParamGiveSemaphore();
-		}
-	}else
-	{
-		cnt = 0;
 	}
 }
 
