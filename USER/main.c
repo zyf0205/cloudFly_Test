@@ -47,5 +47,6 @@ void vApplicationIdleHook(void)
         tickWatchdogReset = tickCount;
         watchdogReset(); /*喂狗*/
     }
+
     __WFI(); /*进入低功耗模式*/
 }

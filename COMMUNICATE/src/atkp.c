@@ -1,30 +1,17 @@
-#include <string.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdbool.h>
+
 #include "atkp.h"
 #include "radiolink.h"
-#include "usblink.h"
-#include "usbd_usr.h"
 #include "stabilizer.h"
-#include "motors.h"
-#include "commander.h"
-#include "flip.h"
 #include "pm.h"
-#include "pid.h"
-#include "attitude_pid.h"
-#include "sensors.h"
-#include "position_pid.h"
-#include "config_param.h"
 #include "power_control.h"
 #include "remoter_ctrl.h"
-#include "optical_flow.h"
-#include "state_estimator.h"
 
 /*FreeRTOS相关头文件*/
 #include "FreeRTOS.h"
 #include "task.h"
-#include "semphr.h"
 #include "queue.h"
 
 /********************************************************************************
@@ -53,19 +40,13 @@ typedef struct
 } rcControlData_t;
 
 bool isInit = false;
-bool flyable = false;						 /*是否允许起飞*/
-static xQueueHandle rxQueue;		 /*接收队列句柄*/
+bool flyable = false;				 /*是否允许起飞*/
+static xQueueHandle rxQueue; /*接收队列句柄*/
 
 static void atkpSendPacket(atkp_t *p)
 {
 	/*添加到串口发送到遥控器*/
 	radiolinkSendPacket(p);
-
-	/*添加到虚拟串口发送到上位机*/
-	// if(getusbConnectState())
-	// {
-	// 	usblinkSendPacket(p);
-	// }
 }
 
 /***************************发送至遥控器******************************/
@@ -79,7 +60,7 @@ static void sendStatus(float roll, float pitch, float yaw, s32 alt, u8 fly_model
 	p.msgID = UP_STATUS;
 
 	_temp = (int)(roll * 100);
-	p.data[_cnt++] = BYTE1(_temp);
+	p.data[_cnt++] = BYTE1(_temp); /*采用大端存储,先放高字节*/
 	p.data[_cnt++] = BYTE0(_temp);
 	_temp = (int)(pitch * 100);
 	p.data[_cnt++] = BYTE1(_temp);
